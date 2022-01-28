@@ -1,20 +1,12 @@
 import boto3
 
-dynamodb = boto3.resource('dynamodb', region_name='us-east-1')
-table = dynamodb.Table('Books')
+dynamodb = boto3.resource('dynamodb', region_name='us-east-2')
+table = dynamodb.Table('Branch')
 
 with table.batch_writer() as batch:
-    batch.put_item(Item={"Author": "John Grisham", "Title": "The Rainmaker",
-        "Category": "Suspense", "Formats": { "Hardcover": "J4SUKVGU", "Paperback": "D7YF4FCX" } })
-    batch.put_item(Item={"Author": "John Grisham", "Title": "The Firm",
-        "Category": "Suspense", "Formats": { "Hardcover": "Q7QWE3U2",
-        "Paperback": "ZVZAYY4F", "Audiobook": "DJ9KS9NM" } })
-    batch.put_item(Item={"Author": "James Patterson", "Title": "Along Came a Spider",
-        "Category": "Suspense", "Formats": { "Hardcover": "C9NR6RJ7",
-        "Paperback": "37JVGDZG", "Audiobook": "6348WX3U" } })
-    batch.put_item(Item={"Author": "Dr. Seuss", "Title": "Green Eggs and Ham",
-        "Category": "Children", "Formats": { "Hardcover": "GVJZQ7JK",
-        "Paperback": "A4TFUR98", "Audiobook": "XWMGHW96" } })
-    batch.put_item(Item={"Author": "William Shakespeare", "Title": "Hamlet",
-        "Category": "Drama", "Formats": { "Hardcover": "GVJZQ7JK",
-        "Paperback": "A4TFUR98", "Audiobook": "XWMGHW96" } })
+    batch.put_item(Item={"branchId": "818beb63-9a78-423b-9b28-5f5e0d0824f6", "crmId": "00Q4x000008tONdEAM"})
+
+    batch.put_item(Item={"branchId": "89b626c1-4623-4860-8f79-c21af04d63ee", "crmId": "00Q4x000008tOuhEAE"})
+
+    batch.put_item(Item={"branchId": "aece63bb-cd2e-46bf-93e4-005d25882e28", "crmId": "00Q4x000008tEGxEAM"})
+

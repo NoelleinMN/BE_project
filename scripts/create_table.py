@@ -2,30 +2,30 @@ import boto3
 
 # boto3 is the AWS SDK library for Python.
 # We can use the low-level client to make API calls to DynamoDB.
-client = boto3.client('dynamodb', region_name='us-east-1')
+client = boto3.client('dynamodb', region_name='us-east-2')
 
 try:
     resp = client.create_table(
-        TableName="Books",
+        TableName="Branch",
         # Declare your Primary Key in the KeySchema argument
         KeySchema=[
             {
-                "AttributeName": "Author",
+                "AttributeName": "branchId",
                 "KeyType": "HASH"
             },
             {
-                "AttributeName": "Title",
+                "AttributeName": "crmId",
                 "KeyType": "RANGE"
             }
         ],
         # Any attributes used in KeySchema or Indexes must be declared in AttributeDefinitions
         AttributeDefinitions=[
             {
-                "AttributeName": "Author",
+                "AttributeName": "branchId",
                 "AttributeType": "S"
             },
             {
-                "AttributeName": "Title",
+                "AttributeName": "crmId",
                 "AttributeType": "S"
             }
         ],

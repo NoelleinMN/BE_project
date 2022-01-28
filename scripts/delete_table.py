@@ -1,10 +1,10 @@
 import boto3
 
-client = boto3.client('dynamodb', region_name='us-east-1')
+client = boto3.client('dynamodb', region_name='us-east-2')
 
 try:
     resp = client.delete_table(
-        TableName="Books",
+        TableName="Branch",
     )
     print("Table deleted successfully!")
 except Exception as e:
