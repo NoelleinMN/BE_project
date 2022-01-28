@@ -1,1 +1,0 @@
-# dynamodb with Python
