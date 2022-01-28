@@ -25,8 +25,8 @@ CLI commands:
 
 To be implemented:
 
-1. Error handling for search
-  - [ ] message of no match
-  - [ ] try regex for partial match; check for multiple items returned
-1. Create record method
-1. Update record method
+- [ ] Error handling for search
+    - [ ] message of no match
+    - [ ] try regex for partial match; check for multiple items returned
+- [ ] Create record method
+- [ ] Update record method
