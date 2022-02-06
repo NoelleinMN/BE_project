@@ -44,24 +44,83 @@ def lambda_handler(event, context):
 
 def getCustomer(branchId):
   try:
-    response
+    response = table.get_item(
+      Key={
+        'branchId': branchId
+      }
+    )
+    if 'Item' in response:
+      return buildResponse(200, response['Item'])
+    else:
+      return buildResponse(404, {'Message': 'branchId: %s not found' % branchId})
+  except:
+    logger.exception('An exception has occured.')
 
 def getAllCustomers():
   try:
-    response
+    response = table.scan()
+    result = response['Item']
 
-def createCustomer(branchId):
-  try:
-    response
+    while 'LastEvaluatedKey' in response:
+      response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
+      result.extend(response['Item'])
 
-def updateCustomer(branchId):
+    body = {
+      'cusomters': response
+    }
+    return buildResponse(200, body)
+  except:
+    logger.exception('An exception has occured.')
+
+def createCustomer(requestBody):
   try:
-    response
+    table.put_item(Item=requestBody)
+    body = {
+      'Operation': 'SAVE',
+      'Message': 'SUCCESS',
+      'Item': requestBody
+    }
+    return buildResponse(200, body)
+  except:
+    logger.exception('An exception has occured.')
+
+def updateCustomer(branchId, updateKey, updateValue):
+  try:
+    response = table.update_item(
+      Key={
+        'branchId': branchId
+      },
+      UpdateExpression='set %s = :value' % updateKey,
+      ExpressionAttributeValues={
+        ':value': updateValue
+      },
+      ReturnValues='UPDATED_NEW'
+    )
+    body = {
+      'Operation': 'SAVE',
+      'Message': 'SUCCESS',
+      'UpdatedAttributes': response
+    }
+    return buildResponse(200, body)
+  except:
+    logger.exception('An exception has occured.')
 
 def deleteCustomer(branchId):
   try:
-    response
-
+    response = table.delete_item(
+      Key={
+        'branchId': branchId
+      },
+      ReturnValues='ALL_OLD'
+    )
+    body = {
+      'Operation': 'SAVE',
+      'Message': 'SUCCESS',
+      'deletedItem': response
+    }
+    return buildResponse(200, body)
+  except:
+    logger.exception('An exception has occured.')
 
 def buildResponse(statusCode, body=None):
   response = {
