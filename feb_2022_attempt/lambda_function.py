@@ -1,6 +1,8 @@
 import json
 import boto3
 import logging
+from feb_2022_attempt.custom_encoder import CustomEncoder
+
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
@@ -13,8 +15,8 @@ postMethod = 'POST'
 patchMethod = 'PATCH'
 deleteMethod = 'DELETE'
 healthPath = '/health'
-customer = '/customer'
-customers = '/customers'
+customerPath = '/customer'
+customersPath = '/customers'
 
 def lambda_handler(event, context):
   logger.info(event)
@@ -22,6 +24,12 @@ def lambda_handler(event, context):
   path = event['path']
   if httpMethod == getMethod and path == healthPath:
     response = buildResponse(200)
+  elif httpMethod == getMethod and path == customerPath:
+    repsonse = getCustomer(event['queryStringParamaters']['branchId'])
+  elif httpMethod == getMethod and path == customersPath:
+    response = getAllCustomers()
+  elif httpMethod == postMethod and path == customerPath:
+    response = createCustomer(json.loads)
 
 
 def buildResponse(statusCode, body=None):
@@ -33,5 +41,5 @@ def buildResponse(statusCode, body=None):
     }
   }
   if body is not None:
-    response['body'] = json.dumps(body)
+    response['body'] = json.dumps(body, cls=CustomEncoder)
   return response
