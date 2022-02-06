@@ -1,4 +1,5 @@
 import json
+from urllib import response
 import boto3
 import logging
 from feb_2022_attempt.custom_encoder import CustomEncoder
@@ -25,11 +26,41 @@ def lambda_handler(event, context):
   if httpMethod == getMethod and path == healthPath:
     response = buildResponse(200)
   elif httpMethod == getMethod and path == customerPath:
-    repsonse = getCustomer(event['queryStringParamaters']['branchId'])
+    response = getCustomer(event['queryStringParamaters']['branchId'])
   elif httpMethod == getMethod and path == customersPath:
     response = getAllCustomers()
   elif httpMethod == postMethod and path == customerPath:
-    response = createCustomer(json.loads)
+    response = createCustomer(json.loads(event['body']))
+  elif httpMethod == patchMethod and path == customerPath:
+    requestBody = json.loads(event['body'])
+    response = updateCustomer(requestBody['branchId'], requestBody['updateKey'], requestBody['updateValue'])
+  elif httpMethod == deleteMethod and path == customerPath:
+    requestBody = json.loads(event['body'])
+    response = deleteCustomer(requestBody['branchId'])
+  else:
+    response = buildResponse(404, 'Not Found')
+  
+  return response
+
+def getCustomer(branchId):
+  try:
+    response
+
+def getAllCustomers():
+  try:
+    response
+
+def createCustomer(branchId):
+  try:
+    response
+
+def updateCustomer(branchId):
+  try:
+    response
+
+def deleteCustomer(branchId):
+  try:
+    response
 
 
 def buildResponse(statusCode, body=None):
