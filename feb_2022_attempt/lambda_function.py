@@ -59,14 +59,14 @@ def getCustomer(branchId):
 def getAllCustomers():
   try:
     response = table.scan()
-    result = response['Item']
+    result = response['Items']
 
-    while 'LastEvaluatedKey' in response:
+    while 'LastEvaluatedKey' in response:   #while loop to continue scanning if db is too large to return all in a single scan
       response = table.scan(ExclusiveStartKey=response['LastEvaluatedKey'])
-      result.extend(response['Item'])
+      result.extend(response['Items'])      #adds to the response to ensure all items are included
 
     body = {
-      'cusomters': response
+      'cusomters': result
     }
     return buildResponse(200, body)
   except:
