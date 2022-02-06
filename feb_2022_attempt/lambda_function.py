@@ -2,7 +2,7 @@ import json
 from urllib import response
 import boto3
 import logging
-from feb_2022_attempt.custom_encoder import CustomEncoder
+from custom_encoder import CustomEncoder
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -25,6 +25,7 @@ def lambda_handler(event, context):
   path = event['path']
   if httpMethod == getMethod and path == healthPath:
     response = buildResponse(200)
+    # TODO: add event bridge with AWS for daily check (cron job)
   elif httpMethod == getMethod and path == customerPath:
     response = getCustomer(event['queryStringParamaters']['branchId'])
   elif httpMethod == getMethod and path == customersPath:
