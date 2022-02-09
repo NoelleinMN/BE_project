@@ -27,7 +27,7 @@ def lambda_handler(event, context):
     response = buildResponse(200)
     # TODO: add event bridge with AWS for daily check (cron job)
   elif httpMethod == getMethod and path == customerPath:
-    response = getCustomer(event['queryStringParamaters']['branchId'])
+    response = getCustomer(event['queryStringParameters']['branchId'])
   elif httpMethod == getMethod and path == customersPath:
     response = getAllCustomers()
   elif httpMethod == postMethod and path == customerPath:
